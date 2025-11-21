@@ -227,6 +227,20 @@
             top: 20px;
         }
 
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .photo-gallery .photo-real {
+            height: 200px; /* Make images smaller to fit */
+            position: relative; /* Unset sticky for individual images */
+            top: auto;
+        }
+
         .timeline-content {
             position: relative;
             padding-left: 40px;
@@ -600,7 +614,7 @@
                 <p><strong>Что вы получите от этого путешествия:</strong></p>
                 <ul>
                     <li>Увидите настоящую жизнь Дананга — прогуляетесь по городским районам, посетите местные рынки и уютные кафе</li>
-                    <li>Посетите старинный город у реки, где каждая улица и каждый дом рассказывают историю.</li>
+                    <li>Посетите старинный город Хойан, где каждая улица и каждый дом рассказывают историю.</li>
                     <li>Попробуете аутентичную вьетнамскую кухню и узнаете о ней больше в общении с русскоязычным гидом</li>
                     <li>Проникнетесь атмосферой Дананга — динамичного, дружелюбного города, где хочется жить</li>
                 </ul>
@@ -642,11 +656,14 @@
 
             <!-- Event 2: Son Tra Peninsula -->
             <div class="timeline-item">
-                <div class="photo-real" style="background-image: url('Прибрежная зона – полуостров Шонтра.jpg');"></div>
+                <div class="photo-gallery">
+                    <div class="photo-real" style="background-image: url('Прибрежная зона – полуостров Шонтра.jpg');"></div>
+                    <div class="photo-real" style="background-image: url('порт.jpg');"></div>
+                </div>
                 <div class="timeline-content">
                     <div class="time-marker"></div>
                     <div class="event-header">
-                        <div class="event-time">09:00 – 12:00</div>
+                        <div class="event-time">09:00 – 11:00</div>
                         <h2 class="event-title">Прибрежная зона – полуостров Шонтра</h2>
                     </div>
                     <p class="event-description">
@@ -658,6 +675,24 @@
                         <div class="location-item"><strong>Мыс Муй Сунг</strong> — потрясающий панорамный вид на город и море, одно из самых красивых мест Дананга</div>
                         <div class="location-item"><strong>Мост Туан Фуок</strong> — здесь встречаются река и море. Это самый длинный мост Дананга</div>
                         <div class="location-item"><strong>Рыбацкий порт Тхо Куанг / Порт Тьен Са</strong> — увидите жизнь рыбаков и атмосферу рабочей гавани</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 2.5: City bridges and market -->
+            <div class="timeline-item">
+                <div class="photo-real" style="background-image: url('Мост дракона.jpg'); background-position: 1% center;"></div>
+                <div class="timeline-content">
+                    <div class="time-marker"></div>
+                    <div class="event-header">
+                        <div class="event-time">11:00 – 12:40</div>
+                        <h2 class="event-title">Сердце города: мосты и рынки</h2>
+                    </div>
+                    <p class="event-description">
+                        Прогулка по знаменитым мостам и колоритному местному рынку.
+                    </p>
+
+                    <div class="location-list">
                         <div class="location-item"><strong>Мост Дракона</strong> — знаменитый мост, который извергает огонь и воду по выходным</div>
                         <div class="location-item"><strong>Мост Любви</strong> — романтическое место с замочками влюбленных</div>
                         <div class="location-item"><strong>Местный рынок</strong> — погрузитесь в быт и кулинарную культуру вьетнамцев</div>
