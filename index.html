@@ -786,10 +786,79 @@
             size: A4;
             margin: 0;
         }
+
+        /* Tour Navigation */
+        .tour-nav {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 100;
+        }
+
+        .tour-nav-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .tour-nav-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tour-nav-btn.active {
+            background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+            color: white;
+            cursor: default;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+        }
+
+        .tour-nav-btn:not(.active) {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .tour-nav-btn:not(.active):hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .tour-nav {
+                padding: 10px 15px;
+                gap: 8px;
+            }
+            .tour-nav-btn {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Tour Navigation -->
+        <nav class="tour-nav">
+            <span class="tour-nav-label">Доступные туры:</span>
+            <span class="tour-nav-btn active">Дананг + Хойан</span>
+            <a href="https://cungthinhungdhv-cell.github.io/Ba_Na_Hill/" target="_blank" class="tour-nav-btn">Ba Na Hills</a>
+            <a href="https://cungthinhungdhv-cell.github.io/Ba_Na_Hill_and_Hoi_An_Tour/" target="_blank" class="tour-nav-btn">Ba Na Hills + Hot Springs Park</a>
+            <a href="https://cungthinhungdhv-cell.github.io/Heritage_Flow_Tour/" target="_blank" class="tour-nav-btn">Поток наследия</a>
+        </nav>
+
         <!-- Header -->
         <div class="header">
             <img src="logo.jpg" alt="Ньунг - Переводчик" class="logo">
@@ -1237,7 +1306,7 @@
         <!-- Footer -->
         <div class="footer">
             <p>Откройте для себя настоящий Вьетнам вместе со мной!</p>
-            <p style="margin-top: 10px; opacity: 0.8;">Ньунг - Переводчик | Вьетнамский | Русский | Английский</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Ньунг - Переводчик и Гид | Вьетнамский | Русский | Английский</p>
         </div>
     </div>
 
