@@ -598,22 +598,6 @@
             margin-top: 3px;
         }
 
-        .calc-input {
-            width: 100%;
-            padding: 12px 15px;
-            font-size: 1.1em;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 600;
-            transition: border-color 0.3s;
-        }
-
-        .calc-input:focus {
-            outline: none;
-            border-color: #FF9800;
-        }
-
         .calc-btn {
             background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
             color: white;
@@ -846,6 +830,348 @@
                 font-size: 0.8em;
             }
         }
+
+        /* Секция "Почему индивидуальный тур" */
+        .why-private-section {
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+        }
+
+        .why-private-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            text-align: center;
+            color: #E65100;
+            margin-bottom: 40px;
+        }
+
+        .why-private-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .why-private-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-top: 4px solid #FF9800;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .why-private-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .why-private-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .why-private-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+            color: #E65100;
+            margin-bottom: 12px;
+        }
+
+        .why-private-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+
+        /* Кнопки +/- для калькулятора */
+        .calc-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calc-input {
+            width: 70px;
+            padding: 12px 10px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            transition: border-color 0.3s;
+            -moz-appearance: textfield;
+        }
+
+        .calc-input::-webkit-outer-spin-button,
+        .calc-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .calc-input:focus {
+            outline: none;
+            border-color: #FF9800;
+        }
+
+        .calc-input-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #FF9800;
+            background: white;
+            border-radius: 10px;
+            font-size: 1.4em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FF9800;
+        }
+
+        .calc-input-btn:hover {
+            background: #FF9800;
+            color: white;
+        }
+
+        .calc-input-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Зачёркнутые старые цены */
+        .calc-result-old {
+            text-decoration: line-through;
+            text-decoration-color: #E53935;
+            text-decoration-thickness: 2px;
+            color: #777;
+            font-size: 0.9em;
+            font-weight: 400;
+        }
+
+        .calc-result-prices {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .time-highlight {
+            color: #E53935;
+            font-weight: 900;
+            -webkit-text-stroke: 1px #E53935;
+            animation: time-pulse 1.2s ease-in-out 2;
+        }
+
+        @keyframes time-pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .included-price {
+            color: #2E7D32;
+            font-weight: 600;
+        }
+
+        .included-status {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        /* Подсказка для 1-2 человек */
+        .calc-tip {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border: 2px solid #2196F3;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            color: #1565C0;
+            font-size: 0.95em;
+        }
+
+        /* В стоимость включено с ценами */
+        .calc-included-item-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            color: #5D4037;
+            font-size: 1em;
+            border-bottom: 1px dashed #FFCC80;
+        }
+
+        .calc-included-item-price:last-child {
+            border-bottom: none;
+        }
+
+        .calc-included-item-price > span:last-child {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: nowrap;
+        }
+
+        /* Кнопка бронирования в калькуляторе */
+        .book-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            text-decoration: none;
+            padding: 18px 30px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .book-btn-line {
+            display: block;
+        }
+
+        .book-btn-sub {
+            display: block;
+            font-size: 0.9em;
+        }
+
+        /* Ссылка на отзывы в калькуляторе */
+        .reviews-inline-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border: 2px solid #2196F3;
+            border-radius: 12px;
+            color: #1565C0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .reviews-inline-link:hover {
+            background: linear-gradient(135deg, #BBDEFB 0%, #90CAF9 100%);
+            transform: translateX(5px);
+        }
+
+        .reviews-arrow {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .reviews-inline-link:hover .reviews-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Кнопка бронирования в футере */
+        .book-btn-footer {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            box-shadow: 0 6px 25px rgba(255, 152, 0, 0.5);
+        }
+
+        .book-btn-footer:hover {
+            box-shadow: 0 10px 35px rgba(255, 152, 0, 0.6);
+        }
+
+        /* Кнопка отзывов */
+        .reviews-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #26A5E4 0%, #1E88E5 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-top: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 20px rgba(38, 165, 228, 0.4);
+        }
+
+        .reviews-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(38, 165, 228, 0.5);
+        }
+
+        .reviews-platform {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+        }
+
+        /* Мобильная адаптация новых элементов */
+        @media screen and (max-width: 768px) {
+            .why-private-section {
+                padding: 40px 20px;
+            }
+
+            .why-private-title {
+                font-size: 1.6em;
+            }
+
+            .why-private-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-input-group {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .calc-input-wrapper {
+                justify-content: center;
+            }
+
+            .calc-input {
+                width: 80px;
+                text-align: center;
+            }
+
+            .calc-included-item-price {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .book-btn {
+                padding: 15px 20px;
+                font-size: 1.1em;
+            }
+
+            .book-btn-line {
+                display: inline;
+            }
+
+            .reviews-inline-link {
+                padding: 12px 15px;
+                font-size: 0.95em;
+            }
+
+            .reviews-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -898,6 +1224,28 @@
             </div>
         </div>
 
+        <!-- Why Private Tour Section -->
+        <div class="why-private-section">
+            <h2 class="why-private-title">Почему индивидуальный тур лучше группового?</h2>
+            <div class="why-private-cards">
+                <div class="why-private-card">
+                    <div class="why-private-icon">🕐</div>
+                    <h3>Ваше время - Ваши правила!</h3>
+                    <p>Можно задержаться где понравилось — вы не зависите от группы. Ни кто не будет Вас торопить или укоризненно смотреть, когда Вам захочется сделать тысячу и одну фотографию!</p>
+                </div>
+                <div class="why-private-card">
+                    <div class="why-private-icon">👤</div>
+                    <h3>Личный гид</h3>
+                    <p>Полное внимание только для Вас и Ваших близких. Персональные рекомендации, ответы на любые вопросы, адаптация маршрута под Ваши интересы.</p>
+                </div>
+                <div class="why-private-card">
+                    <div class="why-private-icon">🚗</div>
+                    <h3>Индивидуальный транспорт с водителем</h3>
+                    <p>Комфортный автомобиль с кондиционером только для Вас. Остановки по желанию — для фото, перекуса или отдыха.</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Timeline -->
         <div class="timeline-section">
             <h2 class="section-title">Программа тура</h2>
@@ -941,7 +1289,7 @@
                     <div class="time-marker"></div>
                     <div class="event-header">
                         <div class="event-time">09:00 – 11:30</div>
-                        <h2 class="event-title">Прибрежная зона – полуостров Шонтра</h2>
+                        <h2 class="event-title">Прибрежная зона – полуостров Шонча</h2>
                     </div>
                     <p class="event-description">
                         Путешествие по живописному полуострову — храмы, смотровые площадки и рыбацкие порты
@@ -1197,62 +1545,115 @@
         <!-- Calculator Section -->
         <div class="calculator-section">
             <div class="calculator-container">
-                <h2 class="calculator-title">Расчёт стоимости тура</h2>
+                <h2 class="calculator-title">Расчёт стоимости индивидуального тура</h2>
                 <div class="calc-form">
                     <div class="calc-input-group">
                         <label class="calc-label">
                             Взрослые
                             <span class="calc-label-hint">взрослые билеты</span>
                         </label>
-                        <input type="number" id="calc-adults" class="calc-input" min="0" max="15" value="2">
-                    </div>
-                    <div class="calc-input-group">
-                        <label class="calc-label">
-                            Дети до 1 м
-                            <span class="calc-label-hint">бесплатно</span>
-                        </label>
-                        <input type="number" id="calc-children1" class="calc-input" min="0" max="15" value="0">
+                        <div class="calc-input-wrapper">
+                            <button type="button" class="calc-input-btn calc-btn-minus" onclick="changeValue('calc-adults', -1)">−</button>
+                            <input type="number" id="calc-adults" class="calc-input" min="0" max="15" value="0">
+                            <button type="button" class="calc-input-btn calc-btn-plus" onclick="changeValue('calc-adults', 1)">+</button>
+                        </div>
                     </div>
                     <div class="calc-input-group">
                         <label class="calc-label">
                             Дети от 1 до 1.4 м
                             <span class="calc-label-hint">детские билеты</span>
                         </label>
-                        <input type="number" id="calc-children2" class="calc-input" min="0" max="15" value="0">
+                        <div class="calc-input-wrapper">
+                            <button type="button" class="calc-input-btn calc-btn-minus" onclick="changeValue('calc-children2', -1)">−</button>
+                            <input type="number" id="calc-children2" class="calc-input" min="0" max="15" value="0">
+                            <button type="button" class="calc-input-btn calc-btn-plus" onclick="changeValue('calc-children2', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="calc-input-group">
+                        <label class="calc-label">
+                            Дети до 1 м
+                            <span class="calc-label-hint">бесплатно</span>
+                        </label>
+                        <div class="calc-input-wrapper">
+                            <button type="button" class="calc-input-btn calc-btn-minus" onclick="changeValue('calc-children1', -1)">−</button>
+                            <input type="number" id="calc-children1" class="calc-input" min="0" max="15" value="0">
+                            <button type="button" class="calc-input-btn calc-btn-plus" onclick="changeValue('calc-children1', 1)">+</button>
+                        </div>
                     </div>
                     <button type="button" class="calc-btn" onclick="calculateTour()">Рассчитать стоимость</button>
                 </div>
 
                 <div id="calc-result" class="calc-result">
-                    <h3 class="calc-result-title">Стоимость Вашего тура</h3>
-                    <div class="calc-result-row">
+                    <h3 class="calc-result-title">Стоимость Вашего тура <span class="time-highlight">(с 8:00 до 21:00)</span></h3>
+                    <div id="row-adults" class="calc-result-row" style="display: none;">
                         <span class="calc-result-label">Взрослых:</span>
-                        <span id="result-adults" class="calc-result-value">2</span>
+                        <span id="result-adults" class="calc-result-value">0</span>
                     </div>
-                    <div class="calc-result-row">
+                    <div id="row-children2" class="calc-result-row" style="display: none;">
+                        <span class="calc-result-label">Дети (1–1.4 м):</span>
+                        <span id="result-children2" class="calc-result-value">0</span>
+                    </div>
+                    <div id="row-children1" class="calc-result-row" style="display: none;">
                         <span class="calc-result-label">Дети (до 1 м):</span>
                         <span id="result-children1" class="calc-result-value">0</span>
                     </div>
                     <div class="calc-result-row">
-                        <span class="calc-result-label">Дети (1–1.4 м):</span>
-                        <span id="result-children2" class="calc-result-value">0</span>
-                    </div>
-                    <div class="calc-result-row">
                         <span class="calc-result-label">Цена за человека:</span>
-                        <span id="result-per-person" class="calc-result-value">0 ₫</span>
+                        <div class="calc-result-prices">
+                            <span id="result-per-person-old" class="calc-result-old">0 ₫</span>
+                            <span id="result-per-person" class="calc-result-value">0 ₫</span>
+                        </div>
                     </div>
                     <div class="calc-result-row">
                         <span class="calc-result-label">Итого за группу:</span>
-                        <span id="result-total" class="calc-result-value">0 ₫</span>
+                        <div class="calc-result-prices">
+                            <span id="result-total-old" class="calc-result-old">0 ₫</span>
+                            <span id="result-total" class="calc-result-value">0 ₫</span>
+                        </div>
+                    </div>
+                    <div id="calc-tip" class="calc-tip" style="display: none;">
+                        💡 Совет: возьмите друзей — цена на человека будет выгоднее!
                     </div>
                     <div class="calc-included-box">
                         <div class="calc-included-title">В стоимость включено:</div>
-                        <div class="calc-included-item">🏔️ Билеты: Мраморные горы</div>
-                        <div class="calc-included-item">🏮 Билеты: Старый город Хойан</div>
-                        <div class="calc-included-item">🎭 Билеты: Шоу "Воспоминания о Хойане"</div>
-                        <div class="calc-included-item">🗣️ Русскоговорящий гид</div>
-                        <div id="calc-transport-item" class="calc-included-item">🚗 4-местный автомобиль</div>
+                        <div class="calc-included-item calc-included-item-price">
+                            <span>🎟️ Билеты: Мраморные горы + Хойан + Шоу</span>
+                            <span><span id="price-tickets" class="included-price">~0 $</span> <span class="included-status">включено ✓</span></span>
+                        </div>
+                        <div id="calc-transport-item" class="calc-included-item calc-included-item-price">
+                            <span>🚗 4-местный автомобиль с водителем</span>
+                            <span><span id="price-transport" class="included-price">~0 $</span> <span class="included-status">включено ✓</span></span>
+                        </div>
+                        <div class="calc-included-item calc-included-item-price">
+                            <span>🗣️ Русскоговорящий гид на протяжении всех 13 часов</span>
+                            <span class="included-status">включено ✓</span>
+                        </div>
+                        <div class="calc-included-item calc-included-item-price">
+                            <span>🍪 Снеки и вода в дорогу</span>
+                            <span class="included-status">включено ✓</span>
+                        </div>
+                        <div class="calc-included-item calc-included-item-price">
+                            <span>☔ Зонты в случае дождя</span>
+                            <span class="included-status">включено ✓</span>
+                        </div>
+                        <div class="calc-included-item calc-included-item-price">
+                            <span>✨ Яркие впечатления на всю жизнь</span>
+                            <span><span style="color: #E65100; font-weight: 600;">бесценно $</span> <span class="included-status">включено ✓</span></span>
+                        </div>
+                        <div class="calc-included-item calc-included-item-price">
+                            <span>📱 Отличные фотографии</span>
+                            <span><span style="color: #E65100; font-weight: 600;">гарантируем</span> <span class="included-status">включено ✓</span></span>
+                        </div>
                     </div>
+                    <a href="https://t.me/nhung_translator_danang" target="_blank" class="book-btn">
+                        <span class="book-btn-line">📩 Забронировать</span>
+                        <span class="book-btn-sub">тур</span>
+                    </a>
+                    <a href="https://t.me/nhung_translator_danang_reviews" target="_blank" class="reviews-inline-link">
+                        <span>⭐</span>
+                        <span>Читайте отзывы наших клиентов в Telegram</span>
+                        <span class="reviews-arrow">→</span>
+                    </a>
                 </div>
 
                 <div id="calc-error" class="calc-error">
@@ -1300,13 +1701,22 @@
         <!-- Price Notice -->
         <div class="price-notice">
             <strong>⚠️ Важная информация</strong>
-            Питание оплачивается отдельно, на Ваш вкус
+            Питание оплачивается отдельно, на Ваш вкус (кроме снеков и воды)
         </div>
 
         <!-- Footer -->
         <div class="footer">
             <p>Откройте для себя настоящий Вьетнам вместе со мной!</p>
             <p style="margin-top: 10px; opacity: 0.8;">Ньунг - Переводчик и Гид | Вьетнамский | Русский | Английский</p>
+            <a href="https://t.me/nhung_translator_danang" target="_blank" class="book-btn book-btn-footer">
+                <span>📩</span>
+                <span>Забронировать тур</span>
+            </a>
+            <a href="https://t.me/nhung_translator_danang_reviews" target="_blank" class="reviews-btn">
+                <span>💬</span>
+                <span>Читать отзывы клиентов</span>
+                <span class="reviews-platform">Telegram</span>
+            </a>
         </div>
     </div>
 
@@ -1349,12 +1759,32 @@
                 total: 950000  // гид + питание гиду + прочие расходы
             },
             tickets: {
-                // Мраморные горы + Хой Ан вход + Memories Show
+                // Мраморные горы + Хой Ан вход + Memories Show (B2B цены)
                 adultPrice: 840000,    // 120,000 + 120,000 + 600,000
                 child1Price: 0,        // дети до 1м бесплатно
                 child2Price: 320000    // 60,000 + 60,000 + 200,000
+            },
+            displayPrices: {
+                // Реальные цены билетов (без B2B скидки)
+                adultMarble: 120000,    // Мраморные горы взрослый
+                childMarble: 60000,     // Мраморные горы ребёнок
+                adultHoiAn: 120000,     // Хойан взрослый
+                childHoiAn: 60000,      // Хойан ребёнок
+                adultShow: 600000,      // Шоу взрослый
+                childShow: 200000       // Шоу ребёнок
             }
         };
+
+        // Функция изменения значения поля ввода
+        function changeValue(inputId, delta) {
+            const input = document.getElementById(inputId);
+            let val = parseInt(input.value) || 0;
+            val += delta;
+            if (val < 0) val = 0;
+            if (val > 15) val = 15;
+            input.value = val;
+            calculateTour();
+        }
 
         // Выбор транспорта по количеству людей
         function selectCar(totalPeople) {
@@ -1381,6 +1811,7 @@
 
             const resultEl = document.getElementById('calc-result');
             const errorEl = document.getElementById('calc-error');
+            const tipEl = document.getElementById('calc-tip');
 
             // Валидация: минимум 1 взрослый
             if (adults < 1) {
@@ -1392,8 +1823,17 @@
             errorEl.classList.remove('visible');
 
             const totalPeople = adults + children1 + children2;
+            const payingPeople = adults + children2;
 
-            // 1. Расчёт билетов
+            // Показать/скрыть подсказку для 1-2 человек
+            tipEl.style.display = payingPeople <= 2 ? 'block' : 'none';
+
+            // Показать/скрыть строки участников
+            document.getElementById('row-adults').style.display = adults > 0 ? 'flex' : 'none';
+            document.getElementById('row-children2').style.display = children2 > 0 ? 'flex' : 'none';
+            document.getElementById('row-children1').style.display = children1 > 0 ? 'flex' : 'none';
+
+            // 1. Расчёт билетов (реальные цены = displayPrices, т.к. нет B2B)
             const ticketsTotal =
                 (adults * CONFIG.tickets.adultPrice) +
                 (children1 * CONFIG.tickets.child1Price) +
@@ -1412,7 +1852,6 @@
                 (children2 * CONFIG.profit.child2Vnd);
 
             // 5. Применяем минимальную маржу (дети до 1м не учитываются)
-            const payingPeople = adults + children2;
             let minProfit;
             if (payingPeople === 1) {
                 minProfit = CONFIG.profit.minProfit1Person;
@@ -1430,14 +1869,32 @@
             const finalPrice = costTotal + profitTotal;
             const pricePerPerson = Math.ceil(finalPrice / totalPeople);
 
+            // 7. Зачёркнутая "старая" цена (+25%)
+            const oldPrice = Math.ceil(finalPrice * 1.25);
+            const oldPricePerPerson = Math.ceil(pricePerPerson * 1.25);
+
+            // 8. Расчёт отображаемых цен билетов (реальные цены)
+            const displayTickets =
+                (adults * (CONFIG.displayPrices.adultMarble + CONFIG.displayPrices.adultHoiAn + CONFIG.displayPrices.adultShow)) +
+                (children2 * (CONFIG.displayPrices.childMarble + CONFIG.displayPrices.childHoiAn + CONFIG.displayPrices.childShow));
+
             // Отображение результатов
             document.getElementById('result-adults').textContent = adults;
             document.getElementById('result-children1').textContent = children1;
             document.getElementById('result-children2').textContent = children2;
             document.getElementById('result-per-person').textContent = formatNumber(pricePerPerson) + ' ₫ (~' + toUsd(pricePerPerson) + ' $)';
+            document.getElementById('result-per-person-old').textContent = formatNumber(oldPricePerPerson) + ' ₫ (~' + toUsd(oldPricePerPerson) + ' $)';
             document.getElementById('result-total').textContent = formatNumber(finalPrice) + ' ₫ (~' + toUsd(finalPrice) + ' $)';
-            document.getElementById('calc-transport-item').textContent =
-                car.emoji + ' ' + car.name;
+            document.getElementById('result-total-old').textContent = formatNumber(oldPrice) + ' ₫ (~' + toUsd(oldPrice) + ' $)';
+
+            // Отображение цен билетов и транспорта
+            document.getElementById('price-tickets').textContent = '~' + toUsd(displayTickets) + ' $';
+            document.getElementById('price-transport').textContent = '~' + toUsd(car.price) + ' $';
+
+            // Обновление транспорта
+            document.getElementById('calc-transport-item').innerHTML =
+                '<span>' + car.emoji + ' ' + car.name + ' с водителем</span>' +
+                '<span><span id="price-transport" class="included-price">~' + toUsd(car.price) + ' $</span> <span class="included-status">включено ✓</span></span>';
 
             resultEl.classList.add('visible');
         }
