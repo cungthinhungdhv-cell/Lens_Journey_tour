@@ -586,6 +586,83 @@
             border-radius: 12px;
         }
 
+        .calc-toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid #FFB300;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calc-toggle-group:hover {
+            border-color: #FF8F00;
+            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+        }
+
+        .calc-toggle-group.active {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            border-color: #E65100;
+        }
+
+        .calc-toggle-label {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .calc-toggle-label .toggle-title {
+            font-weight: 600;
+            color: #E65100;
+            font-size: 1.05em;
+        }
+
+        .calc-toggle-label .toggle-hint {
+            font-size: 0.85em;
+            color: #777;
+            font-weight: 400;
+        }
+
+        .calc-toggle-label .toggle-price {
+            font-size: 0.9em;
+            color: #E65100;
+            font-weight: 500;
+        }
+
+        .calc-toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            background: #ccc;
+            border-radius: 14px;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .calc-toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .calc-toggle-group.active .calc-toggle-switch {
+            background: #E65100;
+        }
+
+        .calc-toggle-group.active .calc-toggle-switch::after {
+            transform: translateX(22px);
+        }
+
         .calc-label {
             font-weight: 500;
             color: #333;
@@ -1581,6 +1658,14 @@
                             <button type="button" class="calc-input-btn calc-btn-plus" onclick="changeValue('calc-children1', 1)">+</button>
                         </div>
                     </div>
+                    <div class="calc-toggle-group" id="vip-toggle" onclick="toggleVip()">
+                        <div class="calc-toggle-label">
+                            <span class="toggle-title">⭐ VIP места на Шоу «Воспоминания о Хойане»</span>
+                            <span class="toggle-hint">Лучшие места + навес от дождя</span>
+                            <span class="toggle-price">+600,000 ₫ / чел</span>
+                        </div>
+                        <div class="calc-toggle-switch"></div>
+                    </div>
                 </div>
 
                 <div id="calc-result" class="calc-result">
@@ -1617,7 +1702,7 @@
                     <div class="calc-included-box">
                         <div class="calc-included-title">В стоимость включено:</div>
                         <div class="calc-included-item calc-included-item-price">
-                            <span>🎟️ Билеты: Мраморные горы + Хойан + Шоу</span>
+                            <span id="tickets-label">🎟️ Билеты: Мраморные горы + Хойан + Шоу</span>
                             <span><span id="price-tickets" class="included-price">~0 $</span> <span class="included-status">включено ✓</span></span>
                         </div>
                         <div id="calc-transport-item" class="calc-included-item calc-included-item-price">
@@ -1772,8 +1857,19 @@
                 childHoiAn: 60000,      // Хойан ребёнок
                 adultShow: 600000,      // Шоу взрослый
                 childShow: 200000       // Шоу ребёнок
+            },
+            vip: {
+                upgradePrice: 600000    // Доплата за VIP на шоу (на человека)
             }
         };
+
+        let vipEnabled = false;
+
+        function toggleVip() {
+            vipEnabled = !vipEnabled;
+            document.getElementById('vip-toggle').classList.toggle('active', vipEnabled);
+            calculateTour();
+        }
 
         // Функция изменения значения поля ввода
         function changeValue(inputId, delta) {
@@ -1834,10 +1930,11 @@
             document.getElementById('row-children1').style.display = children1 > 0 ? 'flex' : 'none';
 
             // 1. Расчёт билетов (реальные цены = displayPrices, т.к. нет B2B)
+            const vipUpgrade = vipEnabled ? CONFIG.vip.upgradePrice : 0;
             const ticketsTotal =
-                (adults * CONFIG.tickets.adultPrice) +
+                (adults * (CONFIG.tickets.adultPrice + vipUpgrade)) +
                 (children1 * CONFIG.tickets.child1Price) +
-                (children2 * CONFIG.tickets.child2Price);
+                (children2 * (CONFIG.tickets.child2Price + vipUpgrade));
 
             // 2. Выбор транспорта
             const car = selectCar(totalPeople);
@@ -1875,8 +1972,12 @@
 
             // 8. Расчёт отображаемых цен билетов (реальные цены)
             const displayTickets =
-                (adults * (CONFIG.displayPrices.adultMarble + CONFIG.displayPrices.adultHoiAn + CONFIG.displayPrices.adultShow)) +
-                (children2 * (CONFIG.displayPrices.childMarble + CONFIG.displayPrices.childHoiAn + CONFIG.displayPrices.childShow));
+                (adults * (CONFIG.displayPrices.adultMarble + CONFIG.displayPrices.adultHoiAn + CONFIG.displayPrices.adultShow + vipUpgrade)) +
+                (children2 * (CONFIG.displayPrices.childMarble + CONFIG.displayPrices.childHoiAn + CONFIG.displayPrices.childShow + vipUpgrade));
+
+            document.getElementById('tickets-label').textContent = vipEnabled
+                ? '🎟️ Билеты: Мраморные горы + Хойан + Шоу (VIP)'
+                : '🎟️ Билеты: Мраморные горы + Хойан + Шоу';
 
             // Отображение результатов
             document.getElementById('result-adults').textContent = adults;
