@@ -1102,6 +1102,10 @@
             flex-wrap: nowrap;
         }
 
+        .agent-hidden {
+            display: none !important;
+        }
+
         .book-btn {
             display: flex;
             align-items: center;
@@ -1265,7 +1269,7 @@
 
         <!-- Header -->
         <div class="header">
-            <img src="logo.jpg" alt="Ньунг - Переводчик" class="logo">
+            <img src="logo.jpg" alt="Ньунг - Переводчик" class="logo" id="nhung-logo">
             <h1>Путешествие через объектив</h1>
             <p class="header-subtitle">Взгляд изнутри: Дананг и Хойан за один день</p>
             <div class="header-info">
@@ -1730,11 +1734,11 @@
                             <span><span style="color: #E65100; font-weight: 600;">гарантируем</span> <span class="included-status">включено ✓</span></span>
                         </div>
                     </div>
-                    <a href="https://t.me/nhung_translator_danang" target="_blank" class="book-btn">
+                    <a href="https://t.me/nhung_translator_danang" target="_blank" class="book-btn" id="book-btn-calc">
                         <span class="book-btn-line">📩 Забронировать</span>
                         <span class="book-btn-sub">тур</span>
                     </a>
-                    <a href="https://t.me/nhung_translator_danang_reviews" target="_blank" class="reviews-inline-link">
+                    <a href="https://t.me/nhung_translator_danang_reviews" target="_blank" class="reviews-inline-link" id="reviews-inline">
                         <span>⭐</span>
                         <span>Читайте отзывы наших клиентов в Telegram</span>
                         <span class="reviews-arrow">→</span>
@@ -1791,13 +1795,13 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>Откройте для себя настоящий Вьетнам вместе со мной!</p>
-            <p style="margin-top: 10px; opacity: 0.8;">Ньунг - Переводчик · Гид · Визы | Вьетнамский | Русский | Английский</p>
-            <a href="https://t.me/nhung_translator_danang" target="_blank" class="book-btn book-btn-footer">
+            <p id="footer-slogan">Откройте для себя настоящий Вьетнам вместе со мной!</p>
+            <p style="margin-top: 10px; opacity: 0.8;" id="footer-nhung">Ньунг - Переводчик · Гид · Визы | Вьетнамский | Русский | Английский</p>
+            <a href="https://t.me/nhung_translator_danang" target="_blank" class="book-btn book-btn-footer" id="book-btn-footer">
                 <span>📩</span>
                 <span>Забронировать тур</span>
             </a>
-            <a href="https://t.me/nhung_translator_danang_reviews" target="_blank" class="reviews-btn">
+            <a href="https://t.me/nhung_translator_danang_reviews" target="_blank" class="reviews-btn" id="reviews-footer">
                 <span>💬</span>
                 <span>Читать отзывы клиентов</span>
                 <span class="reviews-platform">Telegram</span>
@@ -1806,6 +1810,35 @@
     </div>
 
     <script>
+        // Агентский режим: ?m=X (наценка $/чел), ?mt=X (наценка $/группа)
+        const urlParams = new URLSearchParams(window.location.search);
+        const agentMarkupPerPerson = parseFloat(urlParams.get('m')) || 0;
+        const agentMarkupTotal = parseFloat(urlParams.get('mt')) || 0;
+        const isAgentMode = urlParams.has('m') || urlParams.has('mt');
+
+        if (isAgentMode) {
+            document.addEventListener('DOMContentLoaded', () => {
+                // Скрыть лого, кнопки бронирования, отзывы, контакты Ньунг
+                ['nhung-logo', 'book-btn-calc', 'reviews-inline', 'footer-nhung', 'book-btn-footer', 'reviews-footer'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('agent-hidden');
+                });
+
+                // Заменить текст футера
+                const slogan = document.getElementById('footer-slogan');
+                if (slogan) slogan.textContent = 'Откройте для себя настоящий Вьетнам!';
+
+                // Прокинуть параметры в навигационные ссылки
+                const agentParams = window.location.search;
+                document.querySelectorAll('.tour-nav-btn[href]').forEach(link => {
+                    const url = new URL(link.href);
+                    if (urlParams.has('m')) url.searchParams.set('m', urlParams.get('m'));
+                    if (urlParams.has('mt')) url.searchParams.set('mt', urlParams.get('mt'));
+                    link.href = url.toString();
+                });
+            });
+        }
+
         // Курс USD (fallback: 1 USD = 26313 VND)
         let vndPerUsd = 26313;
 
@@ -1963,7 +1996,14 @@
             }
 
             // 6. Финальная цена
-            const finalPrice = costTotal + profitTotal;
+            let finalPrice = costTotal + profitTotal;
+
+            // 6.1 Агентская наценка
+            if (isAgentMode) {
+                const markupVnd = (agentMarkupPerPerson * totalPeople + agentMarkupTotal) * vndPerUsd;
+                finalPrice += Math.round(markupVnd);
+            }
+
             const pricePerPerson = Math.ceil(finalPrice / totalPeople);
 
             // 7. Зачёркнутая "старая" цена (+25%)
