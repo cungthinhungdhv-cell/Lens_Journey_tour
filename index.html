@@ -1788,7 +1788,7 @@
 
 
         <!-- Price Notice -->
-        <div class="price-notice">
+        <div class="price-notice" id="price-notice">
             <strong>⚠️ Важная информация</strong>
             Питание оплачивается отдельно, на Ваш вкус (кроме снеков и воды)
         </div>
@@ -1810,30 +1810,39 @@
     </div>
 
     <script>
-        // Агентский режим: ?m=X (наценка $/чел), ?mt=X (наценка $/группа)
+        // Агентский режим: ?m=X ($/чел), ?mt=X ($/группа), ?f=X (питание $/чел)
         const urlParams = new URLSearchParams(window.location.search);
         const agentMarkupPerPerson = parseFloat(urlParams.get('m')) || 0;
         const agentMarkupTotal = parseFloat(urlParams.get('mt')) || 0;
-        const isAgentMode = urlParams.has('m') || urlParams.has('mt');
+        const agentFood = parseFloat(urlParams.get('f')) || 0;
+        const isAgentMode = urlParams.has('m') || urlParams.has('mt') || urlParams.has('f');
 
         if (isAgentMode) {
             document.addEventListener('DOMContentLoaded', () => {
-                // Скрыть лого, кнопки бронирования, отзывы, контакты Ньунг
                 ['nhung-logo', 'book-btn-calc', 'reviews-inline', 'footer-nhung', 'book-btn-footer', 'reviews-footer'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.classList.add('agent-hidden');
                 });
 
-                // Заменить текст футера
                 const slogan = document.getElementById('footer-slogan');
                 if (slogan) slogan.textContent = 'Откройте для себя настоящий Вьетнам!';
 
+                // Питание
+                const notice = document.getElementById('price-notice');
+                if (notice && urlParams.has('f')) {
+                    if (agentFood > 0) {
+                        notice.innerHTML = '<strong>🍽️ Питание включено</strong> Бюджет на питание: до $' + agentFood + ' на человека за один приём пищи. Сверх бюджета — за счёт гостя.';
+                    } else {
+                        notice.innerHTML = '<strong>🍽️ Питание включено</strong>';
+                    }
+                }
+
                 // Прокинуть параметры в навигационные ссылки
-                const agentParams = window.location.search;
                 document.querySelectorAll('.tour-nav-btn[href]').forEach(link => {
                     const url = new URL(link.href);
                     if (urlParams.has('m')) url.searchParams.set('m', urlParams.get('m'));
                     if (urlParams.has('mt')) url.searchParams.set('mt', urlParams.get('mt'));
+                    if (urlParams.has('f')) url.searchParams.set('f', urlParams.get('f'));
                     link.href = url.toString();
                 });
             });
