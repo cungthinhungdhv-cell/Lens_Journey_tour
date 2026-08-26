@@ -1990,6 +1990,10 @@
             if (!priceData) {
                 errorEl.textContent = 'Не удалось получить актуальную цену. Напишите нам в Telegram — подскажем стоимость.';
                 errorEl.classList.add('visible');
+                // Сеть могла просто моргнуть — по клику пробуем ещё раз
+                errorEl.style.cursor = 'pointer';
+                errorEl.title = 'Нажмите, чтобы попробовать снова';
+                errorEl.onclick = () => calculateTour();
                 resultEl.classList.remove('visible');
                 return;
             }
@@ -2056,20 +2060,48 @@
         const TOUR_ID = 'tour_2';
         const PRICE_API = 'https://tours.itripster.com/api/public/price/' + TOUR_ID;
         let priceReqSeq = 0;
+        const PRICE_TIMEOUT_MS = 5000;
+        const PRICE_RETRY_DELAYS = [500, 1500];   // 3 попытки: сразу, +0.5 с, +1.5 с
+
+        /**
+         * Финальная цена с сервера. Запрос уходит на соседний домен (свой DNS
+         * и TLS-рукопожатие), и на мобильной сети первая попытка регулярно
+         * не доходит. Одна неудача — не повод пугать клиента: пробуем трижды,
+         * затем последняя известная цена из кэша, и только потом ошибка.
+         */
         async function fetchLivePrice(adults, children1, children2) {
             const my = ++priceReqSeq;
             const cacheKey = `price_${TOUR_ID}_${adults}_${children1}_${children2}`;
-            try {
-                const r = await fetch(`${PRICE_API}?adults=${adults}&children1=${children1}&children2=${children2}`, { cache: 'no-store' });
-                if (!r.ok) throw new Error('http ' + r.status);
-                const data = await r.json();
+            const url = `${PRICE_API}?adults=${adults}&children1=${children1}&children2=${children2}`;
+
+            for (let attempt = 0; ; attempt++) {
+                // Пока ждали — состав группы изменили, этот ответ уже не нужен
                 if (my !== priceReqSeq) return null;
-                try { localStorage.setItem(cacheKey, JSON.stringify(data)); } catch (e) {}
-                return data;
-            } catch (e) {
-                try { const c = localStorage.getItem(cacheKey); if (c) return JSON.parse(c); } catch (e2) {}
-                return null;
+                const ctrl = new AbortController();
+                const t = setTimeout(() => ctrl.abort(), PRICE_TIMEOUT_MS);
+                try {
+                    const r = await fetch(url, { cache: 'no-store', signal: ctrl.signal });
+                    if (!r.ok) {
+                        // 400/404 — повтор не поможет, сразу к кэшу
+                        if (r.status >= 400 && r.status < 500 &&
+                            r.status !== 408 && r.status !== 429) break;
+                        throw new Error('http ' + r.status);
+                    }
+                    const data = await r.json();
+                    if (my !== priceReqSeq) return null;
+                    try { localStorage.setItem(cacheKey, JSON.stringify(data)); } catch (e) {}
+                    return data;
+                } catch (e) {
+                    if (attempt >= PRICE_RETRY_DELAYS.length) break;
+                    await new Promise(res => setTimeout(res, PRICE_RETRY_DELAYS[attempt]));
+                } finally {
+                    clearTimeout(t);
+                }
             }
+
+            // Попытки исчерпаны — цена за тот же состав, полученная ранее
+            try { const c = localStorage.getItem(cacheKey); if (c) return JSON.parse(c); } catch (e) {}
+            return null;
         }
 
         // Начальный расчёт при загрузке
