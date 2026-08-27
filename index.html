@@ -1987,6 +1987,8 @@
 
             // Финальная цена — с сервера (источник правды). Маржа/себестоимость на сервере.
             const priceData = await fetchLivePrice(adults, children1, children2);
+            // Расчёт устарел — результат нарисует более свежий вызов
+            if (priceData === STALE) return;
             if (!priceData) {
                 errorEl.textContent = 'Не удалось получить актуальную цену. Напишите нам в Telegram — подскажем стоимость.';
                 errorEl.classList.add('visible');
@@ -1997,6 +1999,10 @@
                 resultEl.classList.remove('visible');
                 return;
             }
+
+            // Цена получена — гасим плашку, если её успел показать
+            // предыдущий, менее удачливый расчёт
+            errorEl.classList.remove('visible');
 
             // База с сервера + VIP-доплата на шоу (на платного человека) поверх
             let finalPrice = priceData.totalPrice + payingPeople * vipUpgrade;
@@ -2060,6 +2066,11 @@
         const TOUR_ID = 'tour_2';
         const PRICE_API = 'https://tours.itripster.com/api/public/price/' + TOUR_ID;
         let priceReqSeq = 0;
+        // Расчёт запускают и клики по «+/−», и переключатели, и загрузка
+        // страницы — параллельных вызовов бывает несколько. Отличаем
+        // «мой ответ устарел» от «сервер не ответил»: устаревший обязан
+        // молча уйти, иначе он покажет ошибку поверх свежей цены.
+        const STALE = Symbol('stale');
         const PRICE_TIMEOUT_MS = 5000;
         const PRICE_RETRY_DELAYS = [500, 1500];   // 3 попытки: сразу, +0.5 с, +1.5 с
 
@@ -2075,8 +2086,8 @@
             const url = `${PRICE_API}?adults=${adults}&children1=${children1}&children2=${children2}`;
 
             for (let attempt = 0; ; attempt++) {
-                // Пока ждали — состав группы изменили, этот ответ уже не нужен
-                if (my !== priceReqSeq) return null;
+                // Пока ждали — расчёт запустили заново, этот ответ не нужен
+                if (my !== priceReqSeq) return STALE;
                 const ctrl = new AbortController();
                 const t = setTimeout(() => ctrl.abort(), PRICE_TIMEOUT_MS);
                 try {
@@ -2088,7 +2099,7 @@
                         throw new Error('http ' + r.status);
                     }
                     const data = await r.json();
-                    if (my !== priceReqSeq) return null;
+                    if (my !== priceReqSeq) return STALE;
                     try { localStorage.setItem(cacheKey, JSON.stringify(data)); } catch (e) {}
                     return data;
                 } catch (e) {
